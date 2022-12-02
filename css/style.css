@@ -1,0 +1,145 @@
+body {
+    height: 100vh;
+    width: 100vw;
+    background: rgb(0, 150, 136);
+    background: linear-gradient(180deg, rgba(0, 150, 136, 1) 20%, rgba(218, 219, 212, 1) 20%, rgba(216, 219, 213, 1) 45%, rgba(214, 219, 215, 1) 75%, rgba(210, 219, 220, 1) 100%);
+}
+
+.user-side {
+    width: 35%;
+    background-color: white;
+}
+
+.chat-side {
+    width: 65%;
+    background-image: url(../img/mine.jpg);
+}
+
+.my-nav {
+    background-color: #eaeaea;
+}
+
+.avatar-container {
+    width: 70px;
+    height: 70px;
+    padding: .5rem;
+    flex-shrink: 0;
+}
+
+.icon-container {
+    display: flex;
+    align-items: center;
+    padding: 1rem .5rem;
+    aspect-ratio: 1/1;
+    color: #b1b1b1;
+}
+
+.banner-notification-nav {
+    background-color: #8edafc;
+
+}
+
+.banner-notification-nav .message-notification-container a {
+    text-decoration: underline;
+    color: #5b84a6;
+}
+
+.notification {
+    aspect-ratio: 1/1;
+    background-color: #f2fbff;
+    color: #89dafc;
+    padding: 1rem;
+    border-radius: 50%;
+}
+
+.input-group button,
+.input-group:hover button,
+.input-group button:active {
+    border: 1px solid #ced4da;
+    color: #ced4da !important;
+}
+
+.chats-container {
+    flex-grow: 1;
+    overflow: auto;
+}
+
+.single-recent-chat-container {
+    border-bottom: 1px solid #eaeaea;
+    cursor: pointer;
+}
+
+.single-recent-chat-container:first-child {
+    border-top: 1px solid #eaeaea;
+}
+
+.single-recent-chat-container:hover,
+.active {
+    background-color: #eaeaea;
+}
+
+
+
+.last-message {
+    color: #c6c5cb;
+}
+
+.text-bar-container {
+    background-color: #f3eeea;
+    display: flex;
+    padding: .5rem 0rem;
+}
+
+.text-bar input {
+    border: none;
+}
+
+.emote {
+    padding: 0rem 1.5rem;
+    display: flex;
+    align-items: center;
+    color: #6b7376;
+}
+
+.message-container {
+    padding: .5rem 1.5rem;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+}
+
+.my-message {
+    background-color: #d9fdd3;
+    padding: .5rem .75rem;
+    border-radius: 10px;
+    max-width: 70%;
+    align-self: end;
+}
+
+.your-message {
+    background-color: white;
+    padding: .5rem .75rem;
+    border-radius: 10px;
+    max-width: 70%;
+    align-self: start;
+}
+
+.fs-6 .dropdown {
+    display: none;
+}
+
+.fs-6:hover .dropdown {
+    display: block !important;
+    margin-top: -10px;
+    margin-left: 10px;
+    color: #6b7376;
+}
+
+.dropdown button {
+    color: #6b7376;
+}
+
+a:active,
+a:focus {
+    background-color: lightgray;
+}

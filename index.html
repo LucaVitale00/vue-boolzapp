@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boolzap</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="	https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container h-100 py-4" id="app">
+        <div class="d-flex h-100 justify-content-center">
+            <div class="user-side d-flex flex-column">
+                <!-- Mio Avatar -->
+                <div class="my-nav d-flex">
+                    <div class="avatar-container me-auto d-flex align-items-center">
+                        <img src="img/avatar_io.jpg" alt="my-avatar" class="img-fluid rounded-circle">
+                        <span class="ms-2">Sofia</span>
+                    </div>
+
+                    <div class="icon-container"><i class="fa-solid fa-circle-notch"></i></div>
+                    <div class="icon-container"><i class="fa-solid fa-message"></i></div>
+                    <div class="icon-container"><i class="fa-solid fa-ellipsis-vertical"></i></div>
+
+                </div>
+
+                <!-- Banner Notifiche -->
+
+                <div class="banner-notification-nav d-flex">
+                    <div class="avatar-container d-flex align-items-center">
+                        <div class="notification d-flex align-items-center"><i class="fa-solid fa-bell-slash"></i></div>
+                    </div>
+                    <div class="message-notification-container me-auto d-flex flex-column justify-content-center">
+                        <small class="fw-bold">Ricevi notifiche di nuovi messaggi</small>
+                        <a>Attiva notifiche desktop</a>
+                    </div>
+                </div>
+                <!-- Barra di ricerca chat -->
+
+                <div class="search-bar-container p-2">
+                    <div class="input-group">
+                        <button class="btn-group btn rounded-0">
+                            <i class="fa-solid fa-magnifying-glass px-3"></i>
+                        </button>
+                        <input type="text" class="form-control form-control-sm rounded-0 shadow-none"
+                            placeholder="Cerca o inizia una nuova chat" v-model="tryToFilter" @keyUp="filterArray()">
+                    </div>
+                </div>
+
+                <!-- Lista chat recenti -->
+                <div class=" chats-container">
+                    <div :class="savedIndex === i ? 'active' :'',filterArray().includes(item) ? 'single-recent-chat-container':''"
+                        class=" d-flex align-items-center" v-for="item,i in recentChatsList" @click="saveIndex(i)">
+                        <div v-if="filterArray().includes(item)" class="avatar-container">
+                            <img :src="'img/avatar'+ item.avatar +'.jpg'" :alt="item.name"
+                                class="img-fluid rounded-circle">
+                        </div>
+                        <div v-if="filterArray().includes(item)"
+                            class="message-notification-container me-auto d-flex flex-column justify-content-center">
+                            <span>{{item.name}}</span>
+                            <small v-if="item.messages.length" class="last-message">{{
+                                getLastMessageByIndex(i).message }}
+                            </small>
+                        </div>
+                        <div v-show="filterArray().includes(item)" class="date text-secondary">
+                            <div v-if="item.messages.length" class="small">{{getLastMessageByIndex(i).date}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Selezionata -->
+            <div class="chat-side d-flex flex-column">
+                <!-- Navbar chat selezionata -->
+                <div class="my-nav d-flex border-start border-2 border-light">
+                    <div class="avatar-container d-flex align-items-center">
+                        <img :src="'img/avatar'+ recentChatsList[savedIndex].avatar +'.jpg'" alt="my-avatar"
+                            class="img-fluid rounded-circle">
+                    </div>
+                    <div class="message-notification-container me-auto d-flex flex-column justify-content-center">
+                        <span>{{ recentChatsList[savedIndex].name }}</span>
+                        <small v-if="recentChatsList[savedIndex].messages.length" class="last-message">ultimo
+                            accesso
+                            alle ore
+                            {{ getLastMessageByIndex(savedIndex).date }}
+                        </small>
+                    </div>
+
+                    <div class="icon-container"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <div class="icon-container"><i class="fa-solid fa-paperclip"></i></div>
+                    <div class="icon-container"><i class="fa-solid fa-ellipsis-vertical"></i></div>
+
+                </div>
+                <!-- messaggi chat selezionata-->
+                <div class="messages-chat flex-grow-1 overflow-auto p-2">
+                    <div class="message-container my-message-container gap-2">
+                        <div class="fs-6 d-flex" v-for="item,i in recentChatsList[savedIndex].messages"
+                            :class="item.status === 'sent' ? 'my-message':'your-message'">
+                            <div class="text-container">
+                                {{item.message}}
+                                <small class="date d-block text-end">
+                                    {{item.date}}
+                                </small>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle border-0 p-1" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Info Messaggio</a>
+                                    <li><a @click.stop="deleteMessage(i)" class="dropdown-item" href="#">Cancella
+                                            Messaggio</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="text-bar-container">
+                    <div class="emote"><i class="fa-regular fa-face-smile"></i></div>
+                    <form class="text-bar flex-grow-1" @submit.prevent="addMessage()">
+                        <input type="text" class="form-control shadow-none rounded-1" placeholder="Scrivi un messaggio "
+                            v-model="newMessageChat">
+                    </form>
+                    <div class="emote"><i class="fa-solid fa-microphone"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
